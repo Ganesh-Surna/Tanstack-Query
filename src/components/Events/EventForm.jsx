@@ -4,11 +4,9 @@ import ImagePicker from '../ImagePicker.jsx';
 import { useQuery } from '@tanstack/react-query';
 import { fetchImages } from '../../util/http.js';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
-// import { useNavigate } from 'react-router-dom';
 
 export default function EventForm({ inputData, onSubmit, children }) {
   const [selectedImage, setSelectedImage] = useState(inputData?.image);
-  // const navigate=useNavigate();
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["events-images"],
