@@ -13,14 +13,15 @@ export default function NewEvent() {
     mutationFn: createNewEvent,
     onSuccess: ()=>{
       queryClientObj.invalidateQueries({
-        queryKey:["eventsId"], exact: true,
+        queryKey:["events"],
+        // queryKey:["eventsId"], exact: true,
       });
       navigate("/events");
     }
   });
 
   function handleSubmit(formData) {
-    mutate({ event: formData });
+    mutate({ eventData: formData });
   }
 
   return (
