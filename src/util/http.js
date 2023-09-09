@@ -2,13 +2,20 @@ import { QueryClient } from "@tanstack/react-query";
 
 export const queryClientObj = new QueryClient();
 
-export async function fetchEvents({signal, searchEl}) {
+export async function fetchEvents({signal, searchEl, max}) {
     console.log(searchEl);
     let url = 'http://localhost:3000/events';
 
-    if(searchEl){
+    if(searchEl && max){
+      url+= "?search=" + searchEl +"&max=" + max;
+    }
+    else if(searchEl){
       url+= "?search="+searchEl;
     }
+    else if(max){
+      url+= "?max=" + max;
+    }
+
     const response = await fetch(url, {signal: signal});
 
     if (!response.ok) {
@@ -24,10 +31,11 @@ export async function fetchEvents({signal, searchEl}) {
 }
 
 
-export async function createNewEvent({eventData}) {
+export async function createNewEvent({event}) { //{event} from mutate({event : formData}) in NewEvent.jsx
+    console.log(event);
     const response = await fetch(`http://localhost:3000/events`, {
       method: 'POST',
-      body: JSON.stringify(eventData),
+      body: JSON.stringify({event}), //sending request body as exactly the backend wants. it wants {event : ______}
       headers: {
         'Content-Type': 'application/json',
       },
@@ -40,9 +48,9 @@ export async function createNewEvent({eventData}) {
       throw error;
     }
   
-    const { event } = await response.json();
+    const resData = await response.json();
   
-    return event;
+    return resData;
 }
 
 
@@ -63,13 +71,13 @@ export async function fetchImages({signal}) {
     return images;
 }
 
-export async function deleteEvent({id}){
-  let url = 'http://localhost:3000/events/'+id;
+export async function deleteEvent({id1}){    //{id} from mutate({id1 : params.id}) in EventDetails.jsx
+  let url = 'http://localhost:3000/events/'+id1;
 
   const response = await fetch(url, {
     method: "DELETE",
-    headers: {
-      "Content-Type":"application/json",
+    headers: {                              //here no body required for backend.
+      "Content-Type":"application/json", 
     }
   });
 
@@ -102,10 +110,10 @@ export async function fetchEventDetails({signal, id}){
     return event;
 }
 
-export async function updateEvent({id, event}) {
-  const response = await fetch(`http://localhost:3000/events/${id}`, {
+export async function updateEvent({id1, event}) { ////{id1, event} from mutate({id1 : params.id, event : formData}) in EditEvent.jsx
+  const response = await fetch(`http://localhost:3000/events/${id1}`, {
     method: 'PUT',
-    body: JSON.stringify({event}),
+    body: JSON.stringify({event}), ////sending request body as exactly the backend wants. it wants {event : ______}
     headers: {
       'Content-Type': 'application/json',
     },

@@ -44,7 +44,7 @@ export default function EditEvent() {
   });
 
   function handleSubmit(formData) {
-    mutate({ event: formData, id: params.id });
+    mutate({ event: formData, id1: params.id }); // sending as request body wants. it wants {event : ______}. And coming to id1 it's our wish (because it is not part of request body).
     navigate("../");
   }
 

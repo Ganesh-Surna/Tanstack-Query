@@ -54,7 +54,7 @@ export default function EventDetails() {
     //   mutate({id: params.id});
     // }
 
-    mutate({ id: params.id });
+    mutate({ id1: params.id }); // our wish because no request body is sending in deleteEvent()
   }
 
   let content;

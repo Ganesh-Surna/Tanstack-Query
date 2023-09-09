@@ -21,7 +21,7 @@ export default function NewEvent() {
   });
 
   function handleSubmit(formData) {
-    mutate({ eventData: formData });
+    mutate({ event: formData }); //sending as request body wants. it wants {event : ______}
   }
 
   return (
